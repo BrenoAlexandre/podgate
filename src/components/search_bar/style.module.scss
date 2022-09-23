@@ -1,0 +1,14 @@
+.searchbar {
+  height: 50px;
+  width: 100%;
+  background-color: rebeccapurple;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  margin-left: 10px;
+  input {
+    width: 45vw;
+  }
+}
