@@ -21,7 +21,7 @@ interface IChannel {
 const App = () => {
   const fetchChannel = async () => {
     try {
-      // const feed = await Axios.get('https://anchor.fm/s/af2a9270/podcast/rss');
+      // const feed = await Axios.get('https://anchor.fm/s/af2a9270/podcast/rss'); //? Meu feed
       const feed = await Axios.get('https://feeds.simplecast.com/qm_9xx0g');
       return await new Promise((resolve, reject) =>
         parseString(feed.data, function (err, result) {
