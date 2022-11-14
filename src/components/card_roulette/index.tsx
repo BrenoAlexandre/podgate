@@ -1,5 +1,5 @@
 import React from 'react';
-import { PodCard } from '../card';
+import { Card } from '../card';
 import style from './style.module.scss';
 
 interface IShow {
@@ -8,14 +8,14 @@ interface IShow {
   image: string;
 }
 
-export const CardRoulete = (props: { shows: IShow[]; label: string }) => {
-  const { shows, label } = props;
+export const CardRoulette = (props: { shows: IShow[]; theme: string }) => {
+  const { shows, theme } = props;
   return (
     <div className={style.body}>
-      <label>{label}</label>
+      <label className={style.themeLabel}>{theme}</label>
       <div className={style.cards}>
         {shows.map((show) => (
-          <PodCard show={show} />
+          <Card show={show} />
         ))}
       </div>
     </div>

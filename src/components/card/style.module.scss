@@ -1,18 +1,30 @@
 .card {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 60% 40%;
+
   height: 230px;
   width: 150px;
+
   margin: 10px;
+
   background-color: antiquewhite;
   border-radius: 10px;
 }
 
+
 .image {
+  grid-row: 1;
+
   height: 130px;
   width: 130px;
   margin: 10px;
+
   font-size: small;
+
   border-radius: 10px;
   background-color: azure;
+
   img {
     height: 100%;
     width: 100%;
@@ -20,19 +32,25 @@
 }
 
 .labels {
+  grid-row: 2;
   margin: 0px 15px;
+
   display: flex;
   flex-direction: column;
+  justify-content: center;
+
+  &__title {
+    max-width: 130px;
+
+    font-size: small;
+    font-weight: bold;
+  }
+
+  &__author {
+    max-width: 130px;
+    margin-top: 5px;
+
+    font-size: small;
+  }
 }
 
-.title {
-  width: 130px;
-  font-weight: 600;
-  overflow: hidden;
-}
-
-.author {
-  margin-top: 5px;
-  font-size: small;
-  font-weight: 400;
-}

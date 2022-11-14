@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { parseString } from 'xml2js';
 import style from './style.module.scss';
-import Sidebar from '../../components/sidebar';
-import SearchBar from '../../components/search_bar';
-import BottomPlayer from '../../components/bottom_player';
-import { CardRoulete } from '../../components/card_roulete';
+import Sidebar from '../main/components/sidebar';
+import SearchBar from '../main/components/search_bar';
+import BottomPlayer from '../main/components/bottom_player';
+import { CardRoulette } from '../../components/card_roulette';
 
 interface IChannelList {
   theme: string;
@@ -22,7 +22,7 @@ const App = () => {
   const fetchChannel = async () => {
     try {
       // const feed = await Axios.get('https://anchor.fm/s/af2a9270/podcast/rss'); //? Meu feed
-      const feed = await Axios.get('https://feeds.simplecast.com/qm_9xx0g');
+      const feed = await Axios.get('https://anchor.fm/s/af2a9270/podcast/rss');
       return await new Promise((resolve, reject) =>
         parseString(feed.data, function (err, result) {
           if (err) {
@@ -53,31 +53,32 @@ const App = () => {
           author: ep?.author || ep?.['itunes:author'][0],
           image: ep?.image[0].url[0],
         },
-        { title: 'Meia Hora em história', author: 'Vitinho Fessor', image: '' },
-        { title: 'Meia Hora em história', author: 'Vitinho Fessor', image: '' },
-        { title: 'Meia Hora em história', author: 'Vitinho Fessor', image: '' },
-        { title: 'Meia Hora em história', author: 'Vitinho Fessor', image: '' },
-        { title: 'Meia Hora em história', author: 'Vitinho Fessor', image: '' },
+        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
+        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
+        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
+        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
+        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
       ],
     },
   ];
 
   return (
-    <div className={style.main}>
-      <Sidebar />
-      <div className={style.body}>
-        <header>
-          <SearchBar />
-        </header>
-        <div className={style.center_body}>
-          {themes.map((theme, index) => (
-            <div key={index * Math.random()} className={style.cards}>
-              <CardRoulete shows={theme.shows} label={theme.theme} />
-            </div>
-          ))}
+    <div>
+      {themes.map((theme, index) => (
+        <div key={index * Math.random()} className={style.roulette}>
+          <CardRoulette shows={theme.shows} theme={theme.theme} />
         </div>
-        <BottomPlayer />
-      </div>
+      ))}
+      {themes.map((theme, index) => (
+        <div key={index * Math.random()} className={style.roulette}>
+          <CardRoulette shows={theme.shows} theme={theme.theme} />
+        </div>
+      ))}
+      {themes.map((theme, index) => (
+        <div key={index * Math.random()} className={style.roulette}>
+          <CardRoulette shows={theme.shows} theme={theme.theme} />
+        </div>
+      ))}
     </div>
   );
 };
