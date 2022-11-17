@@ -1,24 +1,20 @@
 .sidebar {
-  grid-column-start: span 1;
-  grid-row: span 3;
+  grid-column: 1 / 2;
+  grid-row: 1 / 4;
+
   height: 100%;
   width: 100%;
+
   background-color: rgb(5, 47, 47);
-  display: flex;
-  flex-direction: column;
 }
 
 .sidebar_buttons {
-  margin: 50px 5px;
-}
-
-.button {
-  text-align: start;
-  height: 30px;
   width: 100%;
-  margin: 3px 0 0 0;
-}
 
-.button_spacer {
-  margin: 10px 0;
+  margin: 3rem 0 0 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: center;
 }

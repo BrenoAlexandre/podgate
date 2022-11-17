@@ -4,7 +4,7 @@ import Sidebar from './components/sidebar';
 import SearchBar from './components/search_bar';
 import BottomPlayer from './components/bottom_player';
 
-const Main = ({ children }: { children: React.ReactNode }) => {
+const Main = ({ children }: { children: React.ReactNode }): React.ReactElement => {
   return (
     <div className={style.main}>
       <Sidebar />

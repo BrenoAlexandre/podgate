@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { parseString } from 'xml2js';
 import style from './style.module.scss';
-import Sidebar from '../main/components/sidebar';
-import SearchBar from '../main/components/search_bar';
-import BottomPlayer from '../main/components/bottom_player';
-import { CardRoulette } from '../../components/card_roulette';
+import { CardRoulette } from './components/card_roulette';
+import { useWindowSize } from 'usehooks-ts';
+import { useDebounce } from '../../services/hooks/useDebounce';
 
 interface IChannelList {
   theme: string;
@@ -18,33 +17,31 @@ interface IChannel {
   author: string;
 }
 
-const App = () => {
+const App: React.FunctionComponent = () => {
   const fetchChannel = async () => {
     try {
-      // const feed = await Axios.get('https://anchor.fm/s/af2a9270/podcast/rss'); //? Meu feed
       const feed = await Axios.get('https://anchor.fm/s/af2a9270/podcast/rss');
       return await new Promise((resolve, reject) =>
         parseString(feed.data, function (err, result) {
           if (err) {
             reject(err);
           }
-          console.log(result.rss.channel[0]);
+          console.log('Meu feed:', result.rss.channel[0]);
           setEp(result.rss.channel[0]);
           resolve(result);
         })
       );
     } catch (err) {
-      console.error('Feed: ', err);
+      console.error('Feed error:', err);
     }
   };
 
+  const { width } = useWindowSize();
+  const windowWidth = useDebounce(width, 200);
+
   const [ep, setEp] = useState<any>();
 
-  useEffect(() => {
-    fetchChannel();
-  }, []);
-
-  const themes: IChannelList[] = [
+  const fullData: IChannelList[] = [
     {
       theme: 'Educação',
       shows: [
@@ -62,19 +59,38 @@ const App = () => {
     },
   ];
 
+  const [data, setData] = useState<IChannelList[]>(fullData);
+
+  useEffect(() => {
+    fetchChannel();
+  }, []);
+
+  //309px os posts são esmagados
+  //355px os botões quebram
+  //575px encerar sessão cresce
+  //767px minhas publicações descem
+  //991px muita coisa muda
+  //1199px
+  //1443px
+
+  // const newList = [{ theme: fullData[0].theme, shows: fullData[0].shows.slice(0, 4) }];
+  // if (windowWidth < 1199) {
+  //   setData(newList);
+  // }
+
   return (
     <div>
-      {themes.map((theme, index) => (
+      {fullData.map((theme, index) => (
         <div key={index * Math.random()} className={style.roulette}>
           <CardRoulette shows={theme.shows} theme={theme.theme} />
         </div>
       ))}
-      {themes.map((theme, index) => (
+      {data.map((theme, index) => (
         <div key={index * Math.random()} className={style.roulette}>
           <CardRoulette shows={theme.shows} theme={theme.theme} />
         </div>
       ))}
-      {themes.map((theme, index) => (
+      {data.map((theme, index) => (
         <div key={index * Math.random()} className={style.roulette}>
           <CardRoulette shows={theme.shows} theme={theme.theme} />
         </div>
