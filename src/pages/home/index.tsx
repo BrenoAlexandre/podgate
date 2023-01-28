@@ -65,19 +65,6 @@ const App: React.FunctionComponent = () => {
     fetchChannel();
   }, []);
 
-  //309px os posts são esmagados
-  //355px os botões quebram
-  //575px encerar sessão cresce
-  //767px minhas publicações descem
-  //991px muita coisa muda
-  //1199px
-  //1443px
-
-  // const newList = [{ theme: fullData[0].theme, shows: fullData[0].shows.slice(0, 4) }];
-  // if (windowWidth < 1199) {
-  //   setData(newList);
-  // }
-
   return (
     <div>
       {fullData.map((theme, index) => (

@@ -1,25 +1,28 @@
 import React from 'react';
-import { Button } from '../../../../components/button';
+import { SidebarButton as Button } from '../sidebar_button';
 import style from './style.module.scss';
 
 const Sidebar = (): React.ReactElement => {
   const menus = [
-    { title: 'Início', link: '/', gap: true },
-    { title: 'Inscrições', link: '/subscriptions' },
-    { title: 'Episódios favoritos', link: '/favorites' },
-    { title: 'Apoios', link: '/supports' },
-    { title: 'Histórico', link: '/history', gap: true },
-    { title: 'Meus programas', link: '/myShows' },
-    { title: 'Episódios exclusivos', link: '/exclusives', gap: true },
-    { title: 'Meu perfil', link: '/profile' },
-    { title: 'Configurações', link: '/settings' },
+    { id: 'Início', title: 'Início', link: '/', gap: true },
+    { id: 'Minhas inscrições', title: 'Inscrições', link: '', hasDropdown: true },
+    { id: 'Meus episódios favoritos', title: 'Episódios favoritos', link: '', hasDropdown: true },
+    { id: 'Meus apoios', title: 'Apoios', link: '' },
+    { id: 'Meu histórico', title: 'Histórico', link: '', gap: true },
+    { id: 'Meus programas', title: 'Meus programas', link: '' },
+    { id: 'Episódios exclusivos', title: 'Episódios exclusivos', link: '', gap: true },
+    { id: 'Meu perfil', title: 'Meu perfil', link: '/profile' },
+    { id: 'Configurações', title: 'Configurações', link: '/settings' },
   ];
 
   return (
     <div className={style.sidebar}>
       <div className={style.sidebar_buttons}>
         {menus.map((menu, index) => (
-          <Button key={index * Math.random()} link={menu.link} title={menu.title} />
+          <React.Fragment key={index * Math.random()}>
+            <Button key={index * Math.random()} {...menu} />
+            {!!menu.gap && <hr className={style.spacer} />}
+          </React.Fragment>
         ))}
       </div>
     </div>
@@ -27,7 +30,3 @@ const Sidebar = (): React.ReactElement => {
 };
 
 export default Sidebar;
-
-// <React.Fragment key={index * Math.random()}>
-// {menu.gap ? <hr className={style.button_spacer} /> : null}
-// </React.Fragment>

@@ -8,6 +8,10 @@
   background-color: rgb(5, 47, 47);
 }
 
+.title {
+  height: 3rem
+}
+
 .sidebar_buttons {
   width: 100%;
 
@@ -17,4 +21,8 @@
   flex-direction: column;
   justify-items: flex-start;
   align-items: center;
+}
+
+.spacer {
+  width: 90%
 }
