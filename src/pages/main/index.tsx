@@ -4,7 +4,11 @@ import Sidebar from './components/sidebar';
 import SearchBar from './components/search_bar';
 import BottomPlayer from './components/bottom_player';
 
-const Main = ({ children }: { children: React.ReactNode }): React.ReactElement => {
+interface IProps {
+  children: React.ReactNode;
+}
+
+const Main: React.FC<IProps> = ({ children }) => {
   return (
     <div className={style.main}>
       <Sidebar />

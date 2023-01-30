@@ -1,10 +1,15 @@
 import React from 'react';
-import { Card } from '../../../../components/card';
-import { IFeed } from '../../../../interfaces/Episodes';
+import { Card } from '../card';
+import { IFeed } from '../../interfaces/Episodes';
 
 import style from './style.module.scss';
 
-export const CardRoulette = (props: { feeds: IFeed[]; theme: string }): React.ReactElement => {
+interface IProps {
+  feeds: IFeed[];
+  theme: string;
+}
+
+export const CardRoulette: React.FC<IProps> = (props) => {
   const { feeds, theme } = props;
   return (
     <div className={style.body}>
