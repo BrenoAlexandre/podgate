@@ -1,85 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
-import { parseString } from 'xml2js';
+import React, { useCallback, useEffect, useState } from 'react';
 import style from './style.module.scss';
 import { CardRoulette } from './components/card_roulette';
-import { useWindowSize } from 'usehooks-ts';
-import { useDebounce } from '../../services/hooks/useDebounce';
-
-interface IChannelList {
-  theme: string;
-  shows: IChannel[];
-}
-
-interface IChannel {
-  image: string;
-  title: string;
-  author: string;
-}
+import { IHomeFeeds } from '../../interfaces/Episodes';
+import { FeedsService } from '../../services/server/feeds/feeds.service';
 
 const App: React.FunctionComponent = () => {
-  const fetchChannel = async () => {
-    try {
-      const feed = await Axios.get('https://anchor.fm/s/af2a9270/podcast/rss');
-      return await new Promise((resolve, reject) =>
-        parseString(feed.data, function (err, result) {
-          if (err) {
-            reject(err);
-          }
-          console.log('Meu feed:', result.rss.channel[0]);
-          setEp(result.rss.channel[0]);
-          resolve(result);
-        })
-      );
-    } catch (err) {
-      console.error('Feed error:', err);
-    }
-  };
+  const [data, setData] = useState<IHomeFeeds[]>([]);
 
-  const { width } = useWindowSize();
-  const windowWidth = useDebounce(width, 200);
-
-  const [ep, setEp] = useState<any>();
-
-  const fullData: IChannelList[] = [
-    {
-      theme: 'Educação',
-      shows: [
-        {
-          title: ep?.title,
-          author: ep?.author || ep?.['itunes:author'][0],
-          image: ep?.image[0].url[0],
-        },
-        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
-        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
-        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
-        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
-        { title: 'História Em Meia Hora', author: 'Vitor Soares', image: '' },
-      ],
-    },
-  ];
-
-  const [data, setData] = useState<IChannelList[]>(fullData);
+  const fetchFeedData = useCallback(async () => {
+    const feedsData = await FeedsService.fetchFeeds();
+    console.log(feedsData); //TODO remove console
+    setData(feedsData);
+  }, []);
 
   useEffect(() => {
-    fetchChannel();
+    fetchFeedData();
   }, []);
 
   return (
     <div>
-      {fullData.map((theme, index) => (
+      {data.map((category, index) => (
         <div key={index * Math.random()} className={style.roulette}>
-          <CardRoulette shows={theme.shows} theme={theme.theme} />
-        </div>
-      ))}
-      {data.map((theme, index) => (
-        <div key={index * Math.random()} className={style.roulette}>
-          <CardRoulette shows={theme.shows} theme={theme.theme} />
-        </div>
-      ))}
-      {data.map((theme, index) => (
-        <div key={index * Math.random()} className={style.roulette}>
-          <CardRoulette shows={theme.shows} theme={theme.theme} />
+          <CardRoulette feeds={category.feeds} theme={category._id} />
         </div>
       ))}
     </div>

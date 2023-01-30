@@ -3,15 +3,18 @@
   grid-template-columns: 100%;
   grid-template-rows: 60% 40%;
 
-  height: 230px;
+  height: 220px;
   width: 150px;
 
   margin: 10px;
 
   background-color: antiquewhite;
   border-radius: 10px;
-}
 
+  &:hover {
+    cursor: pointer;
+  }
+}
 
 .image {
   grid-row: 1;
@@ -44,6 +47,11 @@
 
     font-size: small;
     font-weight: bold;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
 
   &__author {
@@ -53,4 +61,3 @@
     font-size: small;
   }
 }
-
