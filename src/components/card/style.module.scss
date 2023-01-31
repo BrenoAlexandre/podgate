@@ -8,11 +8,47 @@
 
   margin: 10px;
 
-  background-color: antiquewhite;
+  background-color: #f1f1f1;
   border-radius: 10px;
+
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.3);
 
   &:hover {
     cursor: pointer;
+  }
+}
+
+.cardMissing {
+  @extend .card;
+
+  p {
+    padding: 4px;
+    gap: 10px;
+  }
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  font-weight: 700;
+  font-size: 12px;
+
+  .icon {
+    padding: 5px;
+    margin-top: 15px;
+    background-color: #dedede;
+    box-shadow: 0.7px 1px #000000;
+    border-radius: 12px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:active {
+      box-shadow: 1px 0.7px inset #000000;
+    }
   }
 }
 
@@ -26,7 +62,7 @@
   font-size: small;
 
   border-radius: 10px;
-  background-color: azure;
+  background-color: #f0ffff;
 
   img {
     height: 100%;
@@ -35,7 +71,6 @@
 }
 
 .labels {
-  grid-row: 2;
   margin: 0px 15px;
 
   display: flex;

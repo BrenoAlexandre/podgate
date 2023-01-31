@@ -18,12 +18,18 @@ const App: React.FC = () => {
 
   return (
     <div className={style.body}>
-      {/* //TODO Supports */}
-      {/* //TODO Subscriptions */}
-      {/* //TODO! Card "..." para quando há menos do que 6 programas em uma categoria */}
+      {/*//* Supports */}
+      <div className={style.episodes}>
+        <CardRoulette feeds={[]} category='My Supports' />
+      </div>
+      {/*//* Subscriptions */}
+      <div className={style.episodes}>
+        <CardRoulette feeds={[]} category='My Subscription' />
+      </div>
       {data.map((category, index) => (
-        <div key={index * Math.random()} className={style.episodes}>
-          <CardRoulette feeds={category.feeds} theme={category._id} />
+        //* Category
+        <div key={index} className={style.episodes}>
+          <CardRoulette feeds={category.feeds} category={category._id} />
         </div>
       ))}
     </div>

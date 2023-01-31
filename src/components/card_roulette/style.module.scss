@@ -1,22 +1,25 @@
 .body {
-  margin-top: 0.8rem;
+  margin-top: 8px;
 }
-
-//309px os posts são esmagados
-//355px os botões quebram
-//575px encerar sessão cresce
-//767px minhas publicações descem
-//991px muita coisa muda
-//1199px
-//1443px
 
 .cards {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .themeLabel {
   font-size: large;
   font-weight: bold;
+
+  gap: 8px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }

@@ -19,8 +19,8 @@ const Sidebar = (): React.ReactElement => {
     <div className={style.sidebar}>
       <div className={style.sidebar_buttons}>
         {menus.map((menu, index) => (
-          <React.Fragment key={index * Math.random()}>
-            <Button key={index * Math.random()} {...menu} />
+          <React.Fragment key={index}>
+            <Button key={index} {...menu} />
             {!!menu.gap && <hr className={style.spacer} />}
           </React.Fragment>
         ))}
