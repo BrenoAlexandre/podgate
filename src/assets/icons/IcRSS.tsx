@@ -1,6 +1,6 @@
 import React from 'react';
 
-const IcRSS = () => {
+const IcRSS: React.FC = () => {
   return (
     <svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 512 512'>
       <title>RSS</title>

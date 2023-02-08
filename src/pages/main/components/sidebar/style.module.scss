@@ -5,17 +5,7 @@
   height: 100%;
   width: 100%;
 
-  background-color: rgb(5, 47, 47);
-}
-
-.title {
-  height: 3rem
-}
-
-.sidebar_buttons {
-  width: 100%;
-
-  margin: 3rem 0 0 0;
+  background-color: #202324;
 
   display: flex;
   flex-direction: column;
@@ -23,6 +13,15 @@
   align-items: center;
 }
 
+.title {
+  height: 3rem;
+}
+
+.buttons {
+  width: 90%;
+  padding: 8px 4px;
+}
+
 .spacer {
-  width: 90%
+  height: 2.5%;
 }

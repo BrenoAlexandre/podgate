@@ -1,9 +1,76 @@
 .bottom_player {
   height: 100%;
   width: 100%;
-  background-color: cornflowerblue;
-  // position: absolute;
-  // bottom: 0;
+
+  background-color: #04235a;
+  color: #e8e6e3;
+
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+}
+
+.info {
+  padding: 10px 15px;
+
+  gap: 8px;
+
+  grid-column: 1;
   display: flex;
-  justify-items: flex-end;
+  flex-direction: row;
+  align-items: start;
+  justify-content: start;
+
+  img {
+    height: 75px;
+  }
+}
+.ep_info {
+  max-width: 70%;
+  padding-top: 15px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  small {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.controls {
+  grid-column: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.player_buttons {
+  gap: 24px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  height: 40px;
+  width: auto;
+
+  border-radius: 100px !important;
 }

@@ -1,17 +1,17 @@
 .card {
+  height: 200px;
+  width: 140px;
+
+  color: #e8e6e3;
+
+  margin: 10px;
+  gap: 4px;
+
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 60% 40%;
 
-  height: 220px;
-  width: 150px;
-
-  margin: 10px;
-
-  background-color: #f1f1f1;
-  border-radius: 10px;
-
-  box-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
 
   &:hover {
     cursor: pointer;
@@ -38,7 +38,6 @@
   .icon {
     padding: 5px;
     margin-top: 15px;
-    background-color: #dedede;
     box-shadow: 0.7px 1px #000000;
     border-radius: 12px;
 
@@ -55,19 +54,11 @@
 .image {
   grid-row: 1;
 
-  height: 130px;
-  width: 130px;
+  height: 120px;
+
   margin: 10px;
 
-  font-size: small;
-
-  border-radius: 10px;
-  background-color: #f0ffff;
-
-  img {
-    height: 100%;
-    width: 100%;
-  }
+  border-radius: 4px;
 }
 
 .labels {
@@ -83,6 +74,13 @@
     font-size: small;
     font-weight: bold;
 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+
     &:hover {
       cursor: pointer;
       text-decoration: underline;
@@ -94,5 +92,12 @@
     margin-top: 5px;
 
     font-size: small;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 }

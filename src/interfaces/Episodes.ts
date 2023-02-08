@@ -13,7 +13,7 @@ export interface IFeed {
   author: string;
   photoUrl: string;
   category: string;
-  episodes: IEpisode[];
+  episodesId: IEpisode;
   isPrivate: boolean;
   privateFeed?: string;
   caster: ICaster;
@@ -37,14 +37,16 @@ interface ICaster {
 interface IEpisode {
   _id: string;
   feedId: string;
-  episodes: {
-    photoUrl: string;
-    title: string;
-    description: string;
-    length: string;
-    pubDate: Date;
-    audioUrl: string;
-  }[];
+  episodes: Episode[];
   created_At?: Date;
   updated_At?: Date;
+}
+
+interface Episode {
+  photoUrl: string;
+  title: string;
+  description: string;
+  length: string;
+  pubDate: Date;
+  audioUrl: string;
 }

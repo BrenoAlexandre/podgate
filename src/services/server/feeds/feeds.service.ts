@@ -18,9 +18,9 @@ export class FeedsService {
       .then((response) => response.data);
   }
 
-  static async fetchCategoryFeeds(categoryId: string): Promise<IHomeFeeds[]> {
+  static async fetchCategoryFeeds(category: string): Promise<IFeed[]> {
     return HTTPClient.api
-      .get(`${this.v1}${this.baseUrl}/category/${categoryId}`)
+      .get(`${this.v1}${this.baseUrl}/category/${category}`)
       .then((response) => response.data);
   }
 

@@ -1,0 +1,31 @@
+.main {
+  padding: 1rem 4rem;
+
+  color: #e8e6e3;
+}
+
+.title {
+  font-size: large;
+  font-weight: bold;
+
+  gap: 8px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  a {
+    cursor: pointer;
+  }
+}
+
+.body {
+  padding-top: 8px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+
+  flex-wrap: wrap;
+}

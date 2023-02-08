@@ -14,10 +14,13 @@ export const CardRoulette: React.FC<IProps> = (props) => {
   const { feeds, category } = props;
   return (
     <div className={style.body}>
-      <label className={style.themeLabel}>
+      <p
+        className={style.themeLabel}
+        onClick={() => alert(`Redirected to explore category: ${category}`)}
+      >
         {category}
         <IcForward />
-      </label>
+      </p>
       <div className={style.cards}>
         {feeds.map((feed, index) => (
           <Card feed={feed} key={index} />
