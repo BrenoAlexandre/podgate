@@ -6,9 +6,6 @@ import ToastContainerProps from './utils/toasts/toastContainerProps';
 import Main from './pages/main';
 
 import './index.css';
-
-import { BrowserRouter as Router } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
 import Routes from './routes';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -39,11 +36,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ToastContainer {...ToastContainerProps} />
     <ThemeProvider theme={theme}>
       <Main>
-        <Router>
-          <AuthProvider>
-            <Routes />
-          </AuthProvider>
-        </Router>
+        <Routes />
       </Main>
     </ThemeProvider>
   </React.StrictMode>

@@ -17,11 +17,11 @@ export const routes: IRoute[] = [
     component: Home,
   },
   {
-    path: '/category/:id',
+    path: '/category/:category',
     component: Category,
   },
   {
-    path: '/feed/:id',
+    path: '/feed/:feedId',
     component: Feed,
   },
   // {

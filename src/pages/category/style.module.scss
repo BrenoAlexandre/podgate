@@ -1,4 +1,5 @@
 .main {
+  margin-top: 8px;
   padding: 1rem 4rem;
 
   color: #e8e6e3;
@@ -8,20 +9,20 @@
   font-size: large;
   font-weight: bold;
 
-  gap: 8px;
+  p {
+    gap: 8px;
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
 
-  a {
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
 .body {
-  padding-top: 8px;
-
   display: flex;
   flex-direction: row;
   align-items: center;

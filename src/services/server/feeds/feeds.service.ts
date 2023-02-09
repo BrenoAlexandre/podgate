@@ -1,5 +1,5 @@
 import HTTPClient from '../../HTTPClient';
-import { IHomeFeeds, IFeed } from '../../../interfaces/Episodes';
+import { IHomeFeeds, IFeed } from '../../../interfaces/IEpisodes';
 
 export class FeedsService {
   private static v1 = '/api/v1';

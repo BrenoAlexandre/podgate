@@ -10,9 +10,9 @@ interface IContextUser {
   name: string;
   lastName: string;
   email: string;
-  subscriptions: {};
-  supports: {};
-  caster: {};
+  subscriptionsId?: '';
+  supportsId?: '';
+  casterId?: '';
   exp: number;
 }
 
@@ -30,14 +30,14 @@ interface AuthContextData {
   updateUserName(newName: string): void;
 }
 
-const emptyUser = {
+const emptyUser: IContextUser = {
   _id: '',
   name: '',
   lastName: '',
   email: '',
-  subscriptions: {},
-  supports: {},
-  caster: {},
+  subscriptionsId: '',
+  supportsId: '',
+  casterId: '',
   exp: 0,
 };
 
@@ -69,9 +69,9 @@ export const AuthProvider = ({
           name: data.name,
           lastName: data.lastName,
           email: data.email,
-          subscriptions: data.subscriptions,
-          supports: data.supports,
-          caster: data.caster,
+          subscriptionsId: data.subscriptionsId,
+          supportsId: data.supportsId,
+          casterId: data.casterId,
           exp: data.exp,
         })
       );

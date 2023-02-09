@@ -1,8 +1,7 @@
 import React from 'react';
 import { Routes as Switch, Route, Navigate } from 'react-router-dom';
+import { Ring } from '@uiball/loaders';
 import { routes } from '../routes/routes';
-
-import Loader from '../components/Loader';
 
 const Routes: React.FunctionComponent = () => {
   const renderRoutes = (): React.ReactNode =>
@@ -12,7 +11,13 @@ const Routes: React.FunctionComponent = () => {
     <div className='d-flex'>
       <div className='d-flex flex-column p-0 w-100'>
         <main>
-          <React.Suspense fallback={<Loader />}>
+          <React.Suspense
+            fallback={
+              <div style={{ position: 'absolute', top: '36%', left: '56%' }}>
+                <Ring color='white' />
+              </div>
+            }
+          >
             <Switch>{renderRoutes()}</Switch>
           </React.Suspense>
         </main>

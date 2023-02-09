@@ -1,7 +1,7 @@
 import { Secret, verify } from 'jsonwebtoken';
 import toastMsg, { ToastType } from '../../../utils/toasts/toastMsg';
 import HTTPClient from '../../HTTPClient';
-import { ICreateUser, ILogin, IUpdateUser, IUser } from '../../../interfaces/Users';
+import { ICreateUser, ILogin, IUpdateUser, IUser } from '../../../interfaces/IUsers';
 
 export class UsersService {
   private static v1 = '/api/v1';

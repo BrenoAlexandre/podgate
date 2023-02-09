@@ -3,8 +3,8 @@ export interface IAuthUser {
   name: string;
   lastName: string;
   email: string;
-  subscriptions: {};
-  supports: {};
-  caster: {};
+  subscriptionsId?: '';
+  supportsId?: '';
+  casterId?: '';
   exp: number;
 }
