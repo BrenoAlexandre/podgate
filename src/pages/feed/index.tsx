@@ -11,6 +11,7 @@ import { IFeed } from '../../interfaces/IFeeds';
 import { FeedsService } from '../../services/server/feeds/feeds.service';
 import CasterRequestModal from '../../components/caster_request_modal';
 import SupportRequestModal from '../../components/support_request_modal';
+import { usePlayer } from '../../contexts/PlayerContext';
 
 import style from './style.module.scss';
 
@@ -59,6 +60,7 @@ const Feed: React.FC = () => {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
+  const { playAudio } = usePlayer();
   const { feedId = '' } = useParams();
 
   const fetchFeed = async () => {
@@ -148,7 +150,7 @@ const Feed: React.FC = () => {
 
           <div className={style.card_text}>
             <div className={style.main_info}>
-              <h3>{episode.title}</h3>°<h3>{format(new Date(episode.pubDate), 'dd/MM/yyyy')}</h3>°
+              <h3>{episode.title}</h3>•<h3>{format(new Date(episode.pubDate), 'dd/MM/yyyy')}</h3>•
               <h3>{episode.length}</h3>
             </div>
             <h4 dangerouslySetInnerHTML={{ __html: episode.description }} />
@@ -159,7 +161,13 @@ const Feed: React.FC = () => {
               variant='contained'
               sx={{ p: 3, borderRadius: 100 }}
               onClick={() => {
-                alert(`Reproduzir ${episode.audioUrl}`);
+                playAudio({
+                  audioUrl: episode.audioUrl,
+                  image: episode.photoUrl,
+                  title: episode.title,
+                  channel: data.title,
+                  feedId: data._id,
+                });
               }}
             >
               <FaPlay />

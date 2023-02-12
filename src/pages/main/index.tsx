@@ -4,6 +4,7 @@ import Sidebar from './components/sidebar';
 import BottomPlayer from './components/bottom_player';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from '../../contexts/AuthContext';
+import { PlayerProvider } from '../../contexts/PlayerContext';
 
 interface IProps {
   children: React.ReactNode;
@@ -11,17 +12,19 @@ interface IProps {
 
 const Main: React.FC<IProps> = ({ children }) => {
   return (
-    <Router>
-      <AuthProvider>
-        <div className={style.main}>
-          <Sidebar />
-          <div className={style.body}>{children}</div>
-          <div className={style.bottomPlayer}>
-            <BottomPlayer />
+    <AuthProvider>
+      <PlayerProvider>
+        <Router>
+          <div className={style.main}>
+            <Sidebar />
+            <div className={style.body}>{children}</div>
+            <div className={style.bottomPlayer}>
+              <BottomPlayer />
+            </div>
           </div>
-        </div>
-      </AuthProvider>
-    </Router>
+        </Router>
+      </PlayerProvider>
+    </AuthProvider>
   );
 };
 

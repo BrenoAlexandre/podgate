@@ -4,8 +4,11 @@ import { CardRoulette } from '../../components/card_roulette';
 import { FeedsService } from '../../services/server/feeds/feeds.service';
 import { useAuth } from '../../contexts/AuthContext';
 import { IHomeFeeds } from '../../interfaces/IFeeds';
+import { SubscriptionsService } from '../../services/server/subscriptions/subscriptions.service';
 
 const App: React.FC = () => {
+  const { user } = useAuth();
+
   const [data, setData] = useState<IHomeFeeds[]>([]);
   const [userSupports, setUserSupports] = useState<IHomeFeeds[]>([]);
   const [userSubscriptions, setUserSubscriptions] = useState<IHomeFeeds[]>([]);
@@ -15,11 +18,21 @@ const App: React.FC = () => {
     setData(feedsData);
   }, []);
 
-  const { user } = useAuth();
+  const fetchSupportsData = useCallback(async () => {
+    console.log('fetchSupportsData');
+    // const supportsData = await FeedsService.fetchFeeds();
+    // setData(supportsData);
+  }, []);
+
+  const fetchSubscriptionsData = useCallback(async () => {
+    const subscriptionsData = await SubscriptionsService.getSubscriptionData();
+    setUserSubscriptions(subscriptionsData);
+  }, []);
 
   useEffect(() => {
     fetchFeedData();
-    console.log(user);
+    // fetchSupportsData();
+    // fetchSubscriptionsData();
   }, []);
 
   return (

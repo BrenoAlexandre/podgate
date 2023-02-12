@@ -1,4 +1,7 @@
 import { lazy } from 'react';
+import Caster from '../pages/caster';
+import Subscriptions from '../pages/subscriptions';
+import Supports from '../pages/supports';
 import { IRoute } from '../routes/types';
 
 // const Login = lazy(() => import('../pages/login'));
@@ -23,6 +26,18 @@ export const routes: IRoute[] = [
   {
     path: '/feed/:feedId',
     component: Feed,
+  },
+  {
+    path: '/caster',
+    component: Caster,
+  },
+  {
+    path: '/subscriptions',
+    component: Subscriptions,
+  },
+  {
+    path: '/supports',
+    component: Supports,
   },
   // {
   //   path: '*',

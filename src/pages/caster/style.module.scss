@@ -1,0 +1,32 @@
+.main {
+  margin-top: 8px;
+  padding: 1rem 4rem;
+
+  color: #e8e6e3;
+}
+
+.title {
+  font-size: large;
+  font-weight: bold;
+
+  p {
+    gap: 8px;
+
+    display: flex;
+
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+
+  flex-wrap: wrap;
+}
