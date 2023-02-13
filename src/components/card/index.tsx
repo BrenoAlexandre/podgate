@@ -18,7 +18,11 @@ export const Card: React.FC<IProps> = ({ feed, type, category }) => {
     <Paper variant='elevation' elevation={5} className={type ? style[`card${type}`] : style.card}>
       {!type && feed ? (
         <>
-          <img className={style.image} src={feed.photoUrl} />
+          <img
+            className={style.image}
+            src={feed.photoUrl}
+            onClick={() => navigate(`/feed/${feed._id}`)}
+          />
           <div className={style.labels}>
             <label className={style.labels__title} onClick={() => navigate(`/feed/${feed._id}`)}>
               {feed.title}

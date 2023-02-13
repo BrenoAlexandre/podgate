@@ -21,8 +21,12 @@ const CustomTextField = styled(TextField)`
   }
   & .MuiOutlinedInput-root {
     &.MuiOutlinedInput-root fieldset {
+      color: #e8e6e3;
       border-color: #e8e6e3;
     }
+  }
+  & .MuiInputBase-input {
+    color: #e8e6e3;
   }
 `;
 
@@ -121,7 +125,7 @@ const Feed: React.FC = () => {
             </div>
           </div>
           <div className={style.image}>
-            {data.photoUrl ? <img src={data.photoUrl} /> : <Ring color='white' size={250} />}
+            {data.photoUrl ? <img src={data.photoUrl} /> : <Ring color='white' size={200} />}
           </div>
         </div>
       </Paper>

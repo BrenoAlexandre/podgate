@@ -21,10 +21,17 @@ const CustomTextField = styled(TextField)`
   }
   & .MuiOutlinedInput-root {
     &.MuiOutlinedInput-root fieldset {
+      color: #e8e6e3;
       border-color: #e8e6e3;
     }
   }
-  .MuiFormHelperText-root {
+  & .MuiFormLabel-root {
+    color: #e8e6e3;
+  }
+  & .MuiInputBase-input {
+    color: #e8e6e3;
+  }
+  & .MuiFormHelperText-root {
     color: #e8e6e3;
   }
 `;
@@ -39,10 +46,12 @@ const SupportRequestModal: React.FC<ModalProps> = ({ isOpen, onClose, feedTitle 
   return (
     <Modal open={isOpen} onClose={onClose}>
       <Box sx={boxStyle}>
-        Are you a active supporter of a campaign of {feedTitle}.
+        <p style={{ color: '#fff' }}>Are you a active supporter of a campaign of {feedTitle}.</p>
+        <br />
+        <p style={{ color: '#fff' }}>
+          Submit a recent receipt to receive access to it's private content!
+        </p>
         <br /> <br />
-        Submit a recent receipt to receive access to it's private content!
-        <br /> <br /> <br />
         <CustomTextField
           id='standard-receipt-link'
           label='Receipt Link'

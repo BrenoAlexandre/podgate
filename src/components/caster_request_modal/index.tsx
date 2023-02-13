@@ -14,16 +14,24 @@ const boxStyle = {
   boxShadow: 24,
   p: 4,
 };
+
 const CustomTextField = styled(TextField)`
   & label.MuiOutlinedInput {
     color: #e8e6e3;
   }
   & .MuiOutlinedInput-root {
     &.MuiOutlinedInput-root fieldset {
+      color: #e8e6e3;
       border-color: #e8e6e3;
     }
   }
-  .MuiFormHelperText-root {
+  & .MuiFormLabel-root {
+    color: #e8e6e3;
+  }
+  & .MuiInputBase-input {
+    color: #e8e6e3;
+  }
+  & .MuiFormHelperText-root {
     color: #e8e6e3;
   }
 `;
@@ -37,10 +45,12 @@ const CasterRequestModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   return (
     <Modal open={isOpen} onClose={onClose}>
       <Box sx={boxStyle}>
-        Is this a podcast made by You?
+        <p style={{ color: '#fff' }}>Is this a podcast made by You?</p>
+        <br />
+        <p style={{ color: '#fff' }}>
+          Submit a claim request and You be able to manage it's private feeds and Your Supporters.
+        </p>
         <br /> <br />
-        Submit a claim request and You be able to manage it's private feeds and Your Supporters.
-        <br /> <br /> <br />
         <CustomTextField
           id='standard-proof-link'
           label='Proof link'

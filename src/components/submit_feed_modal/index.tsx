@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Modal, TextField } from '@mui/material';
 import styled from 'styled-components';
+import { FeedsService } from '../../services/server/feeds/feeds.service';
 
 const boxStyle = {
   position: 'absolute' as 'absolute',
@@ -21,10 +22,17 @@ const CustomTextField = styled(TextField)`
   }
   & .MuiOutlinedInput-root {
     &.MuiOutlinedInput-root fieldset {
+      color: #e8e6e3;
       border-color: #e8e6e3;
     }
   }
-  .MuiFormHelperText-root {
+  & .MuiFormLabel-root {
+    color: #e8e6e3;
+  }
+  & .MuiInputBase-input {
+    color: #e8e6e3;
+  }
+  & .MuiFormHelperText-root {
     color: #e8e6e3;
   }
 `;
@@ -35,29 +43,36 @@ interface ModalProps {
 }
 
 const SubmitFeedModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  const [rssLink, setRssLink] = useState<string>('');
+
+  const submitHandler = () => {
+    FeedsService.submitFeed(rssLink);
+    setRssLink('');
+    onClose();
+  };
+
   return (
     <Modal open={isOpen} onClose={onClose}>
       <Box sx={boxStyle}>
-        Looking for a feed that you didn't find on Podgate?
+        <p style={{ color: '#fff' }}>Looking for a feed that you didn't find on Podgate?</p>
+        <br />
+        <p style={{ color: '#fff' }}>
+          Submit it's RSS feed link and you can listen to it whenever You want!
+        </p>
         <br /> <br />
-        Submit it's RSS feed link and you can listen to it whenever You want!
-        <br /> <br /> <br />
         <CustomTextField
           id='standard-feed-link'
           label='RSS Link'
           helperText='Example: https://anchor.fm/s/00000000/podcast/rss'
           variant='outlined'
           size='small'
+          value={rssLink}
+          onChange={(e) => {
+            setRssLink(e.target.value);
+          }}
         />
         <br /> <br />
-        <Button
-          style={{ marginRight: '8px' }}
-          variant='contained'
-          onClick={() => {
-            alert('Submit new feed');
-            onClose();
-          }}
-        >
+        <Button style={{ marginRight: '8px' }} variant='contained' onClick={() => submitHandler()}>
           Send
         </Button>
         <Button variant='outlined' onClick={onClose}>

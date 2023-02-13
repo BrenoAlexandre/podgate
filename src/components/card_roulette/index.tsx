@@ -2,9 +2,10 @@ import React from 'react';
 import { Card } from '../card';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa';
-import { IFeed } from '../../interfaces/IEpisodes';
+import { IFeed } from '../../interfaces/IFeeds';
 
 import style from './style.module.scss';
+import { Paper } from '@mui/material';
 
 interface IProps {
   feeds: IFeed[];
@@ -20,7 +21,6 @@ export const CardRoulette: React.FC<IProps> = (props) => {
     <div className={style.body}>
       <p className={style.themeLabel} onClick={() => navigate(`/category/${category}`)}>
         {category}
-        <FaArrowRight />
       </p>
       <div className={style.cards}>
         {feeds.map((feed, index) => (
@@ -29,7 +29,19 @@ export const CardRoulette: React.FC<IProps> = (props) => {
         {feeds.length < 6 ? (
           <Card type={'Missing'} />
         ) : feeds.length > 5 ? (
-          <Card type={'More'} category={category} />
+          <Paper
+            style={{
+              borderRadius: '100px',
+              padding: '8px',
+              color: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+            }}
+            onClick={() => navigate(`/category/${category}`)}
+          >
+            <FaArrowRight />
+          </Paper>
         ) : null}
       </div>
     </div>

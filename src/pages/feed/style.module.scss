@@ -77,6 +77,11 @@
 
     background-color: #202324;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
     img {
       height: 252px;
       width: 252px;

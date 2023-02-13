@@ -20,8 +20,8 @@ const App: React.FC = () => {
 
   const fetchSupportsData = useCallback(async () => {
     console.log('fetchSupportsData');
-    // const supportsData = await FeedsService.fetchFeeds();
-    // setData(supportsData);
+    const supportsData = await FeedsService.fetchFeeds();
+    setUserSupports(supportsData);
   }, []);
 
   const fetchSubscriptionsData = useCallback(async () => {
@@ -46,14 +46,14 @@ const App: React.FC = () => {
       {/*//* Subscriptions */}
       {userSubscriptions.length > 0 ? (
         <div className={style.episodes}>
-          <CardRoulette feeds={userSubscriptions} category='My Subscription' />
+          <CardRoulette feeds={userSubscriptions.slice(0, 4)} category='My Subscription' />
         </div>
       ) : null}
       {data.length > 0 ? (
         data.map((category, index) => (
           //* Category
           <div key={index} className={style.episodes}>
-            <CardRoulette feeds={category.feeds} category={category._id} />
+            <CardRoulette feeds={category.feeds.slice(0, 6)} category={category._id} />
           </div>
         ))
       ) : (
