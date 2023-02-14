@@ -1,0 +1,27 @@
+.container {
+  height: 100%;
+  margin-top: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formTypeSelected {
+  text-decoration: underline;
+  color: #fff;
+}
+
+.paper {
+  color: #fff;
+
+  border-radius: 8px;
+
+  padding: 12px;
+  gap: 16px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
