@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ToastContainer } from 'react-toastify';
 import ToastContainerProps from './utils/toasts/toastContainerProps';
 
 import Main from './pages/main';
@@ -33,7 +32,6 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ToastContainer {...ToastContainerProps} />
     <ThemeProvider theme={theme}>
       <Main>
         <Routes />

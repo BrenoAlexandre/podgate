@@ -3,8 +3,12 @@ import { Button, Paper, TextField } from '@mui/material';
 import styled from 'styled-components';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
+import { useAuth } from '../../contexts/AuthContext';
 
 import style from './style.module.scss';
+import { useNavigate } from 'react-router-dom';
+import UsersService from '../../services/server/users/user.service';
+import { ICreateUser } from '../../interfaces/IUsers';
 
 const CustomTextField = styled(TextField)`
   & label.MuiOutlinedInput {
@@ -25,8 +29,6 @@ const CustomTextField = styled(TextField)`
   & .MuiFormHelperText-root {
     color: #ffb4b4;
   }
-`;
-`
 `;
 
 const registerSchema = yup.object().shape({
@@ -62,8 +64,21 @@ type IFormTypes = 'login' | 'register';
 const Login = () => {
   const [formType, setFormType] = useState<IFormTypes>('login');
 
+  const navigate = useNavigate();
+  const { Login } = useAuth();
+
   const changeFormType = () => {
     formType === 'login' ? setFormType('register') : setFormType('login');
+  };
+
+  const handleLogin = async (login: { email: string; password: string }) => {
+    await Login(login);
+    navigate('/');
+  };
+
+  const handleRegister = async (newUser: ICreateUser) => {
+    const registered = await UsersService.create(newUser);
+    registered && changeFormType();
   };
 
   return (
@@ -93,7 +108,7 @@ const Login = () => {
           <Formik
             initialValues={registerInitialValues}
             validationSchema={registerSchema}
-            onSubmit={async () => {}}
+            onSubmit={handleRegister}
           >
             {({ errors, touched, handleChange, handleBlur }) => (
               <Form className={style.paper}>
@@ -164,10 +179,7 @@ const Login = () => {
             initialValues={loginInitialValues}
             validationSchema={loginSchema}
             validateOnChange
-            onSubmit={(data) => {
-              console.log('aaaaaaaaaa');
-              alert(`email: ${data.email}\n senha: ${data.password}`);
-            }}
+            onSubmit={handleLogin}
           >
             {({ errors, touched, handleChange, handleBlur }) => (
               <Form className={style.paper}>

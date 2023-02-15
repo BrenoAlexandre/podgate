@@ -22,7 +22,7 @@ export interface IUser {
   name: string;
   lastName: string;
   email: string;
-  favoritesId: string | null;
+  // favoritesId: string | null;
   subscriptionsId: string | null;
   casterId: string | null;
   supportsId: string | null;

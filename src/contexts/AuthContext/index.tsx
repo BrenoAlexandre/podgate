@@ -2,8 +2,9 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import toastMsg, { ToastType } from '../../utils/toasts/toastMsg';
 import setTokenStorage from '../../utils/tokens/setTokenStorage';
-import { IAuthUser } from '../../interfaces/IAuthUser';
 import { setAxiosAuth } from '../../services/HTTPClient';
+import { UsersService } from '../../services/server/users/user.service';
+import { IUser } from '../../interfaces/IUsers';
 
 interface IContextUser {
   _id: string;
@@ -17,20 +18,20 @@ interface IContextUser {
 }
 
 interface IContextLogin {
-  data: IAuthUser;
+  data: IUser;
   authorization: string;
 }
 
 interface AuthContextData {
   logged: boolean;
-  user: IContextUser;
-  Login({ data, authorization }: IContextLogin): Promise<void>;
+  user: IUser;
+  Login(loginData: { email: string; password: string }): Promise<void>;
   Logout(): void;
   checkToken(): boolean;
   updateUserName(newName: string): void;
 }
 
-const emptyUser: IContextUser = {
+const emptyUser = {
   _id: '',
   name: '',
   lastName: '',
@@ -38,7 +39,6 @@ const emptyUser: IContextUser = {
   subscriptionsId: '',
   supportsId: '',
   casterId: '',
-  exp: 0,
 };
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -54,11 +54,16 @@ export const AuthProvider = ({
 }: {
   children: React.ReactElement;
 }): React.ReactElement => {
-  const [user, setUser] = useState<IContextUser>(emptyUser);
+  const [user, setUser] = useState<IUser>(emptyUser);
 
-  const Login = async ({ data, authorization }: IContextLogin): Promise<void> => {
+  const Login = async (loginData: { email: string; password: string }): Promise<void> => {
     try {
+      console.log('useAuth login');
+      const { authorization, data } = await UsersService.login(loginData);
+
+      console.log('Token data:', data);
       localStorage.clear();
+
       setUser(data);
 
       setTokenStorage('authorization', authorization);
@@ -72,7 +77,7 @@ export const AuthProvider = ({
           subscriptionsId: data.subscriptionsId,
           supportsId: data.supportsId,
           casterId: data.casterId,
-          exp: data.exp,
+          // exp: data.exp,
         })
       );
     } catch (error) {
@@ -87,12 +92,12 @@ export const AuthProvider = ({
 
   const checkToken = (): boolean => {
     let isValid = false;
-    if (user.exp) {
-      if (new Date(user.exp * 1000) < new Date()) {
-        Logout();
-        toastMsg(ToastType.Warning, 'Sua sessão expirou.');
-      } else isValid = true;
-    }
+    // if (user.exp) {
+    //   if (new Date(user.exp * 1000) < new Date()) {
+    //     Logout();
+    //     toastMsg(ToastType.Warning, 'Sua sessão expirou.');
+    //   } else isValid = true;
+    // }
 
     return isValid;
   };
