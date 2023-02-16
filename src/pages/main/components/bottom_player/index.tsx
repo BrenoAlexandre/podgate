@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Slider } from '@mui/material';
 import {
-  FaBackward,
-  FaForward,
   FaPause,
   FaPlay,
   FaRedo,
@@ -136,7 +134,7 @@ const BottomPlayer = (): React.ReactElement => {
           <FaVolumeMute />
         ) : volume < 15 ? (
           <FaVolumeOff />
-        ) : volume < 75 ? (
+        ) : volume < 65 ? (
           <FaVolumeDown />
         ) : (
           <FaVolumeUp />
@@ -147,6 +145,7 @@ const BottomPlayer = (): React.ReactElement => {
           size='medium'
           value={volume}
           onChange={handleVolume}
+          valueLabelDisplay='auto'
         />
       </div>
     </footer>

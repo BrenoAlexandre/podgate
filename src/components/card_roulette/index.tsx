@@ -10,16 +10,20 @@ import { Paper } from '@mui/material';
 interface IProps {
   feeds: IFeed[];
   category: string;
+  link?: string;
 }
 
 export const CardRoulette: React.FC<IProps> = (props) => {
-  const { feeds, category } = props;
+  const { feeds, category, link } = props;
 
   const navigate = useNavigate();
 
   return (
     <div className={style.body}>
-      <p className={style.themeLabel} onClick={() => navigate(`/category/${category}`)}>
+      <p
+        className={style.themeLabel}
+        onClick={() => navigate(`${link ? link : `/category/${category}`}`)}
+      >
         {category}
       </p>
       <div className={style.cards}>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Button, Modal, TextField } from '@mui/material';
+import { Box, Button, Modal, TextField, Tooltip } from '@mui/material';
 import styled from 'styled-components';
 import { FeedsService } from '../../services/server/feeds/feeds.service';
+import { useAuth } from '../../contexts/AuthContext';
 
 const boxStyle = {
   position: 'absolute' as 'absolute',
@@ -43,11 +44,19 @@ interface ModalProps {
 }
 
 const SubmitFeedModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
   const [rssLink, setRssLink] = useState<string>('');
+  const { logged } = useAuth();
+
+  const openTooltip = () => setIsTooltipOpen(true);
+  const closeTooltip = () => setIsTooltipOpen(false);
 
   const submitHandler = () => {
-    FeedsService.submitFeed(rssLink);
-    setRssLink('');
+    if (rssLink) {
+      FeedsService.submitFeed(rssLink);
+      setRssLink('');
+    }
+    closeTooltip();
     onClose();
   };
 
@@ -72,9 +81,24 @@ const SubmitFeedModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           }}
         />
         <br /> <br />
-        <Button style={{ marginRight: '8px' }} variant='contained' onClick={() => submitHandler()}>
-          Send
-        </Button>
+        <Tooltip
+          title='Login to submit feeds'
+          arrow
+          disableHoverListener
+          open={isTooltipOpen}
+          onClose={closeTooltip}
+        >
+          <Button
+            style={{ marginRight: '8px' }}
+            variant='contained'
+            onClick={() => {
+              if (logged) submitHandler();
+              else openTooltip();
+            }}
+          >
+            Send
+          </Button>
+        </Tooltip>
         <Button variant='outlined' onClick={onClose}>
           Cancel
         </Button>

@@ -24,10 +24,16 @@ export const Card: React.FC<IProps> = ({ feed, type, category }) => {
             onClick={() => navigate(`/feed/${feed._id}`)}
           />
           <div className={style.labels}>
-            <label className={style.labels__title} onClick={() => navigate(`/feed/${feed._id}`)}>
+            <label
+              title={feed.title}
+              className={style.labels__title}
+              onClick={() => navigate(`/feed/${feed._id}`)}
+            >
               {feed.title}
             </label>
-            <label className={style.labels__author}>{feed.author}</label>
+            <label title={feed.author} className={style.labels__author}>
+              {feed.author}
+            </label>
           </div>
         </>
       ) : type === 'Missing' ? (

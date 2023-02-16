@@ -19,22 +19,23 @@ export class UsersService {
       .then((response) => response.data);
   }
 
-  static async login(login: ILogin): Promise<{ authorization: string; data: IUser }> {
+  static async login(login: ILogin): Promise<boolean | { authorization: string; data: IUser }> {
     const { email, password } = login;
-    return HTTPClient.api.post(`${this.v1}/login`, { email, password }).then((response) => {
-      console.log(response.headers);
+    return HTTPClient.api
+      .post(`${this.v1}/login`, { email, password })
+      .then((response) => {
+        const { authorization } = response.headers;
 
-      const { authorization } = response.headers;
+        if (!authorization) {
+          throw new Error('No auth found');
+        }
+        const data = decode(authorization) as unknown as IUser;
 
-      if (!authorization) {
-        throw new Error('No auth found');
-      }
-      console.log('authorization', authorization);
-      const data = decode(authorization) as unknown as IUser;
-      console.log('Decoded:', data);
-
-      return { authorization, data };
-    });
+        return { authorization, data };
+      })
+      .catch((e) => {
+        return false;
+      });
   }
 }
 

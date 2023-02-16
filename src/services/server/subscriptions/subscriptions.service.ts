@@ -7,13 +7,13 @@ export class SubscriptionsService {
 
   static async unsubscribe(feedId: string): Promise<any> {
     return HTTPClient.api
-      .put(`${this.v1}${this.baseUrl}`, { feedId })
+      .put(`${this.v1}${this.baseUrl}/unsubscribe`, { feedId })
       .then((response) => response.data);
   }
 
   static async subscribe(feedId: string): Promise<any> {
     return HTTPClient.api
-      .put(`${this.v1}${this.baseUrl}`, { feedId })
+      .put(`${this.v1}${this.baseUrl}/subscribe`, { feedId })
       .then((response) => response.data);
   }
 

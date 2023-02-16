@@ -3,15 +3,15 @@ import style from './style.module.scss';
 import { CardRoulette } from '../../components/card_roulette';
 import { FeedsService } from '../../services/server/feeds/feeds.service';
 import { useAuth } from '../../contexts/AuthContext';
-import { IHomeFeeds } from '../../interfaces/IFeeds';
+import { IFeed, IHomeFeeds } from '../../interfaces/IFeeds';
 import { SubscriptionsService } from '../../services/server/subscriptions/subscriptions.service';
 
 const App: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logged } = useAuth();
 
   const [data, setData] = useState<IHomeFeeds[]>([]);
-  const [userSupports, setUserSupports] = useState<IHomeFeeds[]>([]);
-  const [userSubscriptions, setUserSubscriptions] = useState<IHomeFeeds[]>([]);
+  const [userSupports, setUserSupports] = useState<IFeed[]>([]);
+  const [userSubscriptions, setUserSubscriptions] = useState<IFeed[]>([]);
 
   const fetchFeedData = useCallback(async () => {
     const feedsData = await FeedsService.fetchFeeds();
@@ -19,34 +19,51 @@ const App: React.FC = () => {
   }, []);
 
   const fetchSupportsData = useCallback(async () => {
-    console.log('fetchSupportsData');
     const supportsData = await FeedsService.fetchFeeds();
-    setUserSupports(supportsData);
+    console.log('fetchSupportsData', supportsData);
+    setUserSupports(supportsData[0].feeds);
   }, []);
 
   const fetchSubscriptionsData = useCallback(async () => {
     const subscriptionsData = await SubscriptionsService.getSubscriptionData();
-    setUserSubscriptions(subscriptionsData);
+    setUserSubscriptions(subscriptionsData[0].feeds);
   }, []);
 
-  useEffect(() => {
+  const handleEffect = useCallback(async () => {
     fetchFeedData();
-    // fetchSupportsData();
-    // fetchSubscriptionsData();
-  }, []);
+    if (user.name) {
+      // fetchSupportsData();
+      fetchSubscriptionsData();
+    }
+  }, [logged]);
+
+  useEffect(() => {
+    handleEffect();
+  }, [user]);
+
+  useEffect(() => {
+    if (logged === false) {
+      setUserSupports([]);
+      setUserSubscriptions([]);
+    }
+  }, [logged]);
 
   return (
     <div className={style.body}>
       {/*//* Supports */}
       {userSupports.length > 0 ? (
         <div className={style.episodes}>
-          <CardRoulette feeds={userSupports} category='My Supports' />
+          <CardRoulette feeds={userSupports} category='My Supports' link='/supports' />
         </div>
       ) : null}
       {/*//* Subscriptions */}
       {userSubscriptions.length > 0 ? (
         <div className={style.episodes}>
-          <CardRoulette feeds={userSubscriptions.slice(0, 4)} category='My Subscription' />
+          <CardRoulette
+            feeds={userSubscriptions.slice(0, 4)}
+            category='My Subscriptions'
+            link='/subscriptions'
+          />
         </div>
       ) : null}
       {data.length > 0 ? (

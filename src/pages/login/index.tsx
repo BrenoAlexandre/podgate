@@ -72,13 +72,15 @@ const Login = () => {
   };
 
   const handleLogin = async (login: { email: string; password: string }) => {
-    await Login(login);
-    navigate('/');
+    const isLogged = await Login(login);
+    if (isLogged) {
+      navigate('/');
+    }
   };
 
   const handleRegister = async (newUser: ICreateUser) => {
     const registered = await UsersService.create(newUser);
-    registered && changeFormType();
+    registered ? changeFormType() : alert('Unable to create profile');
   };
 
   return (

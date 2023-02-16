@@ -14,6 +14,8 @@ import SupportRequestModal from '../../components/support_request_modal';
 import { usePlayer } from '../../contexts/PlayerContext';
 
 import style from './style.module.scss';
+import { useAuth } from '../../contexts/AuthContext';
+import { SubscriptionsService } from '../../services/server/subscriptions/subscriptions.service';
 
 const CustomTextField = styled(TextField)`
   & label.MuiOutlinedInput {
@@ -55,6 +57,7 @@ const emptyFeed: IFeed = {
 
 const Feed: React.FC = () => {
   const [data, setData] = useState<IFeed>(emptyFeed);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   const [redeemIsOpen, setIsRedeemOpen] = useState<boolean>(false);
   const openRedeemModal = () => setIsRedeemOpen(true);
@@ -65,15 +68,27 @@ const Feed: React.FC = () => {
   const closeModal = () => setIsOpen(false);
 
   const { playAudio } = usePlayer();
+  const { user } = useAuth();
   const { feedId = '' } = useParams();
 
   const fetchFeed = async () => {
     const feedData = await FeedsService.fetchFeedById(feedId);
     setData(feedData);
+    if (user._id) fetchUserSubscriptions(feedData._id);
   };
 
-  const isSubscribed = true;
-  const isClaimed = true;
+  const fetchUserSubscriptions = async (feed_id: string) => {
+    const userSubs = await SubscriptionsService.getSubscriptionData();
+    const isSubbed = userSubs[0].feedsId.filter((feedId: string) => feedId === feed_id)[0];
+    setIsSubscribed(!!isSubbed);
+  };
+
+  const subscribe = async () => {
+    const resp = await SubscriptionsService.subscribe(data._id);
+    setIsSubscribed(true);
+  };
+
+  const isClaimed = !!data.caster;
 
   useEffect(() => {
     fetchFeed();
@@ -96,7 +111,7 @@ const Feed: React.FC = () => {
               <Button
                 variant={isSubscribed ? 'outlined' : 'contained'}
                 onClick={() => {
-                  alert('Subscribe action');
+                  subscribe();
                 }}
               >
                 {isSubscribed ? 'Subscribed' : 'Subscribe'}

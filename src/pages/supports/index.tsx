@@ -32,8 +32,10 @@ const Supports: React.FC = () => {
         </p>
       </h3>
       <div className={style.body}>
-        {feeds.map((feed) => (
-          <Card feed={feed} />
+        {feeds.map((feed, index) => (
+          <React.Fragment key={index}>
+            <Card feed={feed} />
+          </React.Fragment>
         ))}
         <Card type={'Missing'} />
       </div>

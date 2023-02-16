@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Card } from '../../components/card';
 import { IFeed } from '../../interfaces/IFeeds';
-import { FeedsService } from '../../services/server/feeds/feeds.service';
+import { SubscriptionsService } from '../../services/server/subscriptions/subscriptions.service';
 
 import style from './style.module.scss';
 
@@ -14,13 +14,13 @@ const Subscriptions: React.FC = () => {
 
   const { category = '' } = useParams();
 
-  const fetchCategoryFeeds = async () => {
-    const feedsData = await FeedsService.fetchCategoryFeeds(category);
-    setFeeds(feedsData);
+  const fetchSubsFeeds = async () => {
+    const feedsData = await SubscriptionsService.getSubscriptionData();
+    setFeeds(feedsData[0].feeds);
   };
 
   useEffect(() => {
-    fetchCategoryFeeds();
+    fetchSubsFeeds();
   }, [category]);
 
   return (
@@ -32,8 +32,10 @@ const Subscriptions: React.FC = () => {
         </p>
       </h3>
       <div className={style.body}>
-        {feeds.map((feed) => (
-          <Card feed={feed} />
+        {feeds.map((feed, index) => (
+          <React.Fragment key={index}>
+            <Card feed={feed} />
+          </React.Fragment>
         ))}
         <Card type={'Missing'} />
       </div>
