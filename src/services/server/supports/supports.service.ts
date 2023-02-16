@@ -1,7 +1,7 @@
 import { EStatus } from '../../../interfaces/EStatus';
 import HTTPClient from '../../HTTPClient';
 
-export class SubscriptionsService {
+export class SupportsService {
   private static v1 = '/api/v1';
 
   private static baseUrl = '/support';
@@ -36,5 +36,9 @@ export class SubscriptionsService {
 
   static async fetchRequests(): Promise<any> {
     return HTTPClient.api.get(`${this.v1}${this.baseUrl}/fetch`).then((response) => response.data);
+  }
+
+  static async getUserSupports(): Promise<any> {
+    return HTTPClient.api.get(`${this.v1}${this.baseUrl}/user`).then((response) => response.data);
   }
 }

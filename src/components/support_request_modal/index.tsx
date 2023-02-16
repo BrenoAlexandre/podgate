@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Modal, TextField } from '@mui/material';
 import styled from 'styled-components';
+import { SupportsService } from '../../services/server/supports/supports.service';
 
 const boxStyle = {
   position: 'absolute' as 'absolute',
@@ -40,9 +41,17 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   feedTitle: string;
+  feedId: string;
 }
 
-const SupportRequestModal: React.FC<ModalProps> = ({ isOpen, onClose, feedTitle }) => {
+const SupportRequestModal: React.FC<ModalProps> = ({ isOpen, onClose, feedTitle, feedId }) => {
+  const [receiptUrl, setReceiptUrl] = useState<string>('');
+
+  const redeemFeed = async () => {
+    await SupportsService.submitRequest(receiptUrl, feedId);
+    onClose();
+  };
+
   return (
     <Modal open={isOpen} onClose={onClose}>
       <Box sx={boxStyle}>
@@ -58,19 +67,14 @@ const SupportRequestModal: React.FC<ModalProps> = ({ isOpen, onClose, feedTitle 
           helperText='Example: docs.google.com/document/d/1xADaoAZorOtNA'
           variant='outlined'
           size='small'
+          value={receiptUrl}
+          onChange={(e) => setReceiptUrl(e.target.value)}
           InputLabelProps={{
             style: { color: '#e8e6e3' },
           }}
         />
         <br /> <br />
-        <Button
-          style={{ marginRight: '8px' }}
-          variant='contained'
-          onClick={() => {
-            alert('Submit new feed');
-            onClose();
-          }}
-        >
+        <Button style={{ marginRight: '8px' }} variant='contained' onClick={redeemFeed}>
           Send
         </Button>
         <Button variant='outlined' onClick={onClose}>

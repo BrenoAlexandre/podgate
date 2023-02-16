@@ -37,7 +37,6 @@ const Subscriptions: React.FC = () => {
             <Card feed={feed} />
           </React.Fragment>
         ))}
-        <Card type={'Missing'} />
       </div>
     </div>
   );

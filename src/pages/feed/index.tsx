@@ -84,11 +84,16 @@ const Feed: React.FC = () => {
   };
 
   const subscribe = async () => {
-    const resp = await SubscriptionsService.subscribe(data._id);
+    await SubscriptionsService.subscribe(data._id);
     setIsSubscribed(true);
   };
 
-  const isClaimed = !!data.caster;
+  const unsubscribe = async () => {
+    await SubscriptionsService.unsubscribe(data._id);
+    setIsSubscribed(false);
+  };
+
+  const isClaimed = true; //!!data.caster;
 
   useEffect(() => {
     fetchFeed();
@@ -110,32 +115,25 @@ const Feed: React.FC = () => {
             <div className={style.actions}>
               <Button
                 variant={isSubscribed ? 'outlined' : 'contained'}
-                onClick={() => {
-                  subscribe();
-                }}
+                onClick={() => (isSubscribed ? unsubscribe() : subscribe())}
               >
                 {isSubscribed ? 'Subscribed' : 'Subscribe'}
               </Button>
               {isClaimed ? (
-                <Button
-                  variant='contained'
-                  onClick={() => {
-                    openModal();
-                  }}
-                >
+                <Button variant='contained' onClick={openModal}>
                   Support
                 </Button>
               ) : (
-                <Button
-                  variant='contained'
-                  onClick={() => {
-                    openRedeemModal();
-                  }}
-                >
+                <Button variant='contained' onClick={openRedeemModal}>
                   Redeem Feed
                 </Button>
               )}
-              <SupportRequestModal isOpen={isOpen} onClose={closeModal} feedTitle={data.title} />
+              <SupportRequestModal
+                isOpen={isOpen}
+                onClose={closeModal}
+                feedTitle={data.title}
+                feedId={data._id}
+              />
               <CasterRequestModal isOpen={redeemIsOpen} onClose={closeRedeemModal} />
             </div>
           </div>
