@@ -9,6 +9,7 @@ import style from './style.module.scss';
 import { useNavigate } from 'react-router-dom';
 import UsersService from '../../services/server/users/user.service';
 import { ICreateUser } from '../../interfaces/IUsers';
+import Logo from '../../assets/icons/Logo';
 
 const CustomTextField = styled(TextField)`
   & label.MuiOutlinedInput {
@@ -86,6 +87,7 @@ const Login = () => {
   return (
     <div className={style.container}>
       <Paper className={style.paper}>
+        <Logo />
         <h1
           style={{
             width: '100%',
