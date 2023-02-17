@@ -17,7 +17,7 @@ export interface IFeed {
   episodesId: IEpisode;
   isPrivate: boolean;
   privateFeed?: string;
-  caster: ICaster;
+  casterId: string;
   created_At?: Date;
   updated_At?: Date;
 }

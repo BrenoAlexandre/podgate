@@ -44,9 +44,9 @@ interface ModalProps {
 }
 
 const SubmitFeedModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
   const [rssLink, setRssLink] = useState<string>('');
   const { logged } = useAuth();
+  const [isTooltipOpen, setIsTooltipOpen] = useState<boolean>(false);
 
   const openTooltip = () => setIsTooltipOpen(true);
   const closeTooltip = () => setIsTooltipOpen(false);

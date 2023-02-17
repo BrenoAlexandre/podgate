@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Button, Modal, TextField } from '@mui/material';
+import { Box, Button, Modal, TextField, Tooltip } from '@mui/material';
 import styled from 'styled-components';
 import { SupportsService } from '../../services/server/supports/supports.service';
+import { useAuth } from '../../contexts/AuthContext';
 
 const boxStyle = {
   position: 'absolute' as 'absolute',
@@ -47,8 +48,9 @@ interface ModalProps {
 const SupportRequestModal: React.FC<ModalProps> = ({ isOpen, onClose, feedTitle, feedId }) => {
   const [receiptUrl, setReceiptUrl] = useState<string>('');
 
-  const redeemFeed = async () => {
+  const submitRequest = async () => {
     await SupportsService.submitRequest(receiptUrl, feedId);
+    setReceiptUrl('');
     onClose();
   };
 
@@ -74,7 +76,7 @@ const SupportRequestModal: React.FC<ModalProps> = ({ isOpen, onClose, feedTitle,
           }}
         />
         <br /> <br />
-        <Button style={{ marginRight: '8px' }} variant='contained' onClick={redeemFeed}>
+        <Button style={{ marginRight: '8px' }} variant='contained' onClick={submitRequest}>
           Send
         </Button>
         <Button variant='outlined' onClick={onClose}>

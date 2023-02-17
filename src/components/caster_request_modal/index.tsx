@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Modal, TextField } from '@mui/material';
 import styled from 'styled-components';
+import { CastersService } from '../../services/server/casters/caster.service';
 
 const boxStyle = {
   position: 'absolute' as 'absolute',
@@ -39,9 +40,18 @@ const CustomTextField = styled(TextField)`
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  feedId: string;
 }
 
-const CasterRequestModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const CasterRequestModal: React.FC<ModalProps> = ({ isOpen, onClose, feedId }) => {
+  const [proof, setProof] = useState<string>('');
+
+  const claimFeed = async () => {
+    await CastersService.submitRequest(proof, feedId);
+    setProof('');
+    onClose();
+  };
+
   return (
     <Modal open={isOpen} onClose={onClose}>
       <Box sx={boxStyle}>
@@ -57,16 +67,11 @@ const CasterRequestModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           helperText='Example: docs.google.com/document/d/1xADaoAZorOtNA'
           variant='outlined'
           size='small'
+          onChange={(e) => setProof(e.target.value)}
+          value={proof}
         />
         <br /> <br />
-        <Button
-          style={{ marginRight: '8px' }}
-          variant='contained'
-          onClick={() => {
-            alert('Submit caster request');
-            onClose();
-          }}
-        >
+        <Button style={{ marginRight: '8px' }} variant='contained' onClick={claimFeed}>
           Send
         </Button>
         <Button variant='outlined' onClick={onClose}>

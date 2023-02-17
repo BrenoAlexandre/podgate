@@ -23,7 +23,6 @@ const App: React.FC = () => {
 
   const fetchSupportsData = useCallback(async () => {
     const supportsData = await SupportsService.getUserSupports();
-    console.log('fetchSupportsData', supportsData[0]);
     setUserSupports(supportsData[0].supports);
 
     const activeFeeds = supportsData[0].supports.filter((f: any) => {
@@ -42,8 +41,12 @@ const App: React.FC = () => {
   const handleEffect = useCallback(async () => {
     fetchFeedData();
     if (user.name) {
-      fetchSupportsData();
-      fetchSubscriptionsData();
+      if (!!user.supportsId) {
+        fetchSupportsData();
+      }
+      if (!!user.subscriptionsId) {
+        fetchSubscriptionsData();
+      }
     }
   }, [logged]);
 

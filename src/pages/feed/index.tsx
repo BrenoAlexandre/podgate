@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Paper, TextField } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Paper, TextField, Tooltip } from '@mui/material';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { FaPlay } from 'react-icons/fa';
@@ -16,6 +16,7 @@ import { usePlayer } from '../../contexts/PlayerContext';
 import style from './style.module.scss';
 import { useAuth } from '../../contexts/AuthContext';
 import { SubscriptionsService } from '../../services/server/subscriptions/subscriptions.service';
+import { useDebounce } from '../../services/hooks/useDebounce';
 
 const CustomTextField = styled(TextField)`
   & label.MuiOutlinedInput {
@@ -48,7 +49,7 @@ const emptyFeed: IFeed = {
     updated_At: new Date(),
   },
 
-  caster: { _id: '', userId: '', feeds: [], createdAt: new Date(), updatedAt: new Date() },
+  casterId: '',
   isPrivate: false,
   privateFeed: '',
   created_At: new Date(),
@@ -57,24 +58,82 @@ const emptyFeed: IFeed = {
 
 const Feed: React.FC = () => {
   const [data, setData] = useState<IFeed>(emptyFeed);
+  const [privateData, setPrivateData] = useState<IFeed>(emptyFeed);
+
+  const [allEpisodes, setAllEpisodes] = useState<Episode[]>([]);
+  const [filteredEpisodes, setFilteredEpisodes] = useState<Episode[]>([]);
+  const [filter, setFilter] = useState<string>('');
+
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const [redeemIsOpen, setIsRedeemOpen] = useState<boolean>(false);
   const openRedeemModal = () => setIsRedeemOpen(true);
   const closeRedeemModal = () => setIsRedeemOpen(false);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const [supportIsOpen, setSupportIsOpen] = useState<boolean>(false);
+  const openSupportModal = () => setSupportIsOpen(true);
+  const closeSupportModal = () => setSupportIsOpen(false);
+
+  const [isSubTooltipOpen, setSubIsTooltipOpen] = useState<boolean>(false);
+  const handleSubTooltip = () => setSubIsTooltipOpen(!isSubTooltipOpen);
+  const [isAcTooltipOpen, setAcIsTooltipOpen] = useState<boolean>(false);
+  const handleAcTooltip = () => setAcIsTooltipOpen(!isAcTooltipOpen);
 
   const { playAudio } = usePlayer();
-  const { user } = useAuth();
+  const { user, logged } = useAuth();
   const { feedId = '' } = useParams();
+
+  const isClaimed = !!data.casterId;
+
+  const handleFilter = useCallback(
+    async (newFilter: string) => {
+      if (!newFilter) setFilteredEpisodes(allEpisodes);
+      else {
+        const lowerFilter = newFilter.toLowerCase();
+
+        const filteredDataOptions: Episode[] = [];
+
+        allEpisodes.map((option) => {
+          const match = option.title
+            .toLowerCase()
+            .startsWith(lowerFilter.slice(0, Math.max(option.title.length - 1, 1)));
+
+          if (match) filteredDataOptions.push(option);
+          return option;
+        });
+
+        setFilteredEpisodes(filteredDataOptions);
+      }
+    },
+    [filter]
+  );
 
   const fetchFeed = async () => {
     const feedData = await FeedsService.fetchFeedById(feedId);
     setData(feedData);
-    if (user._id) fetchUserSubscriptions(feedData._id);
+    setAllEpisodes(feedData.episodesId.episodes);
+    setFilteredEpisodes(feedData.episodesId.episodes);
+
+    if (user._id && user.subscriptionsId) fetchUserSubscriptions(feedData._id);
+
+    console.log(data);
+    if (data.privateFeed) {
+      const privateFeedData = await FeedsService.fetchFeedById(data.privateFeed);
+      setPrivateData(privateFeedData);
+
+      let allEps = [];
+      allEps.push(...feedData.episodesId.episodes, ...privateFeedData.episodesId.episodes);
+      allEps.sort(function (a, b) {
+        var keyA = new Date(a.pubDate),
+          keyB = new Date(b.pubDate);
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+      });
+
+      setAllEpisodes(allEps);
+      setFilteredEpisodes(allEps);
+    }
   };
 
   const fetchUserSubscriptions = async (feed_id: string) => {
@@ -92,8 +151,6 @@ const Feed: React.FC = () => {
     await SubscriptionsService.unsubscribe(data._id);
     setIsSubscribed(false);
   };
-
-  const isClaimed = true; //!!data.caster;
 
   useEffect(() => {
     fetchFeed();
@@ -113,28 +170,56 @@ const Feed: React.FC = () => {
               />
             </div>
             <div className={style.actions}>
-              <Button
-                variant={isSubscribed ? 'outlined' : 'contained'}
-                onClick={() => (isSubscribed ? unsubscribe() : subscribe())}
+              <Tooltip
+                title='Login to subscribe'
+                arrow
+                disableHoverListener
+                open={isSubTooltipOpen}
+                onClose={handleSubTooltip}
               >
-                {isSubscribed ? 'Subscribed' : 'Subscribe'}
-              </Button>
-              {isClaimed ? (
-                <Button variant='contained' onClick={openModal}>
-                  Support
+                <Button
+                  variant={isSubscribed ? 'outlined' : 'contained'}
+                  onClick={() => {
+                    logged ? (isSubscribed ? unsubscribe() : subscribe()) : handleSubTooltip();
+                  }}
+                >
+                  {isSubscribed ? 'Subscribed' : 'Subscribe'}
                 </Button>
-              ) : (
-                <Button variant='contained' onClick={openRedeemModal}>
-                  Redeem Feed
-                </Button>
-              )}
+              </Tooltip>
+              <Tooltip
+                title='Login to proceed further'
+                arrow
+                disableHoverListener
+                open={isAcTooltipOpen}
+                onClose={handleAcTooltip}
+              >
+                {isClaimed ? (
+                  <Button
+                    variant='contained'
+                    onClick={() => (logged ? openSupportModal() : handleAcTooltip())}
+                  >
+                    Support
+                  </Button>
+                ) : (
+                  <Button
+                    variant='contained'
+                    onClick={() => (logged ? openRedeemModal() : handleAcTooltip())}
+                  >
+                    Redeem Feed
+                  </Button>
+                )}
+              </Tooltip>
               <SupportRequestModal
-                isOpen={isOpen}
-                onClose={closeModal}
+                isOpen={supportIsOpen}
+                onClose={closeSupportModal}
                 feedTitle={data.title}
                 feedId={data._id}
               />
-              <CasterRequestModal isOpen={redeemIsOpen} onClose={closeRedeemModal} />
+              <CasterRequestModal
+                isOpen={redeemIsOpen}
+                onClose={closeRedeemModal}
+                feedId={data._id}
+              />
             </div>
           </div>
           <div className={style.image}>
@@ -154,12 +239,18 @@ const Feed: React.FC = () => {
           InputLabelProps={{
             style: { color: '#e8e6e3' },
           }}
+          value={filter}
+          onChange={(e) => {
+            let filter = e.target.value;
+            setFilter(filter);
+            handleFilter(filter);
+          }}
         />
         <Button variant='contained' className={style.search_button}>
           Search
         </Button>
       </Paper>
-      {data.episodesId.episodes.map((episode: Episode, index: number) => (
+      {filteredEpisodes.map((episode: Episode, index: number) => (
         <Paper key={index} elevation={12} className={style.ep_card}>
           <div className={style['ep_image']}>
             <img src={episode.photoUrl} />

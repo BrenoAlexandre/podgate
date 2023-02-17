@@ -34,8 +34,10 @@ export class SupportsService {
       .then((response) => response.data);
   }
 
-  static async fetchRequests(): Promise<any> {
-    return HTTPClient.api.get(`${this.v1}${this.baseUrl}/fetch`).then((response) => response.data);
+  static async fetchRequests(feedId: string): Promise<any> {
+    return HTTPClient.api
+      .post(`${this.v1}${this.baseUrl}/requests`, { feedId })
+      .then((response) => response.data);
   }
 
   static async getUserSupports(): Promise<any> {
